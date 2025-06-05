@@ -152,6 +152,11 @@
 </footer>
 
 <script>
+  // Check if the user came from index.html
+  if (document.referrer.indexOf('index.html') === -1) {
+    window.location.href = 'index.html'; // Redirect to index.html if not
+  }
+
   (function() {
     const startBtn = document.getElementById('startBtn');
     const multiplierEl = document.getElementById('multiplier');
