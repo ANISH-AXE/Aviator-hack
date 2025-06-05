@@ -15,7 +15,7 @@
       align-items: center;
       justify-content: center;
       height: 100vh;
-      position: relative; /* Added for positioning */
+      position: relative;
     }
     .box {
       background: rgba(255,255,255,0.1);
@@ -38,26 +38,26 @@
       font-size: 1.5rem;
     }
     .logo {
-      position: absolute; /* Positioning the logo */
-      bottom: 20px; /* Distance from the bottom */
-      left: 20px; /* Distance from the left */
-      width: 70px; /* Increased logo size */
-      border-radius: 10px; /* Added curves to the logo */
-      cursor: pointer; /* Change cursor to pointer */
+      position: absolute;
+      bottom: 20px;
+      left: 20px;
+      width: 70px;
+      border-radius: 10px;
+      cursor: pointer;
     }
     .top-logo {
-      position: absolute; /* Positioning the top logo */
-      top: 20px; /* Distance from the top */
-      left: 20px; /* Distance from the left */
-      width: 60px; /* Size of the circular logo */
-      height: 60px; /* Size of the circular logo */
-      border-radius: 50%; /* Make it circular */
-      overflow: hidden; /* Ensure the image fits within the circle */
-      border: 2px solid white; /* Optional: border for the circle */
+      position: absolute;
+      top: 20px;
+      left: 20px;
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      overflow: hidden;
+      border: 2px solid white;
     }
     .top-logo img {
-      width: 100%; /* Make the image fill the circle */
-      height: auto; /* Maintain aspect ratio */
+      width: 100%;
+      height: auto;
     }
   </style>
 </head>
@@ -67,21 +67,21 @@
   <div id="loading">Checking access...</div>
 </div>
 
-<img src="whatsapp-photo.png" alt="WP Logo" class="logo" onclick="showContactNumber()" /> <!-- Add your WP logo path here -->
+<img src="whatsapp-photo.png" alt="WP Logo" class="logo" onclick="showContactNumber()" />
 
 <div class="top-logo">
-  <img src="Screenshot_20240616-174545~2.png" alt="Your Logo" /> <!-- Add your logo path here -->
+  <img src="Screenshot_20240616-174545~2.png" alt="Your Logo" />
 </div>
 
 <script>
   function showContactNumber() {
-    window.open("https://wa.me/9779806167776", "_blank"); // Replace with your actual WhatsApp number
+    window.open("https://wa.me/9779806167776", "_blank");
   }
 
-  // 🔐 Add allowed device codes here manually
-  const allowedCodes = ["A1B2C", "Z9X8Y", "7A6Q2","IUYL6","OIOET]; // <- example
+  // Allowed device codes
+  const allowedCodes = ["A1B2C", "Z9X8Y"]; // Add your allowed codes here
 
-  const redirectUrl = "aviator.html"; // 🌐 Set your destination page here
+  const redirectUrl = "aviator.html"; // Destination page
 
   function generateCode() {
     const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
@@ -101,13 +101,12 @@
   const gate = document.getElementById("gate");
 
   if (allowedCodes.includes(deviceCode)) {
-    // ✅ Code matched → Redirect
+    localStorage.setItem("aviator_access_granted", "true");
     gate.innerHTML = `<div class="main-content">✅ Access granted. Redirecting...</div>`;
     setTimeout(() => {
       window.location.href = redirectUrl;
-    }, 1500); // wait 1.5 seconds before redirect
+    }, 1500);
   } else {
-    // ❌ Not matched → Show the code to user
     gate.innerHTML = `
       <h2>This device is not yet authorized.</h2>
       <p>Send this code to the admin:</p>
