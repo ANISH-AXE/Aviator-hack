@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Secure Aviator Entry</title>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700&display=swap" rel="stylesheet" />
+  <style>
+    body {
+      margin: 0;
+      background: linear-gradient(135deg, #000428, #004e92);
+      color: white;
+      font-family: 'Orbitron', sans-serif;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      position: relative; /* Added for positioning */
+    }
+    .box {
+      background: rgba(255,255,255,0.1);
+      padding: 2rem;
+      border-radius: 20px;
+      text-align: center;
+      box-shadow: 0 0 20px #00f7ff33;
+      backdrop-filter: blur(10px);
+    }
+    .code {
+      font-size: 2rem;
+      background: black;
+      padding: 1rem 2rem;
+      border-radius: 12px;
+      margin-top: 1rem;
+      letter-spacing: 0.1em;
+      color: #00f7ff;
+    }
+    .main-content {
+      font-size: 1.5rem;
+    }
+    .logo {
+      position: absolute; /* Positioning the logo */
+      bottom: 20px; /* Distance from the bottom */
+      left: 20px; /* Distance from the left */
+      width: 70px; /* Increased logo size */
+      border-radius: 10px; /* Added curves to the logo */
+      cursor: pointer; /* Change cursor to pointer */
+    }
+    .top-logo {
+      position: absolute; /* Positioning the top logo */
+      top: 20px; /* Distance from the top */
+      left: 20px; /* Distance from the left */
+      width: 60px; /* Size of the circular logo */
+      height: 60px; /* Size of the circular logo */
+      border-radius: 50%; /* Make it circular */
+      overflow: hidden; /* Ensure the image fits within the circle */
+      border: 2px solid white; /* Optional: border for the circle */
+    }
+    .top-logo img {
+      width: 100%; /* Make the image fill the circle */
+      height: auto; /* Maintain aspect ratio */
+    }
+  </style>
+</head>
+<body>
+
+<div class="box" id="gate">
+  <div id="loading">Checking access...</div>
+</div>
+
+<img src="whatsapp-photo.png" alt="WP Logo" class="logo" onclick="showContactNumber()" /> <!-- Add your WP logo path here -->
+
+<div class="top-logo">
+  <img src="Screenshot_20240616-174545~2.png" alt="Your Logo" /> <!-- Add your logo path here -->
+</div>
+
+<script>
+  function showContactNumber() {
+    alert("Contact us: +1234567890"); // Replace with your actual number
+  }
+
+  // 🔐 Add allowed device codes here manually
+  const allowedCodes = ["A1B2C", "Z9X8Y", ""]; // <- example
+
+  const redirectUrl = "aviator.html"; // 🌐 Set your destination page here
+
+  function generateCode() {
+    const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+    let code = "";
+    for (let i = 0; i < 5; i++) {
+      code += chars.charAt(Math.floor(Math.random() * chars.length));
+    }
+    return code;
+  }
+
+  let deviceCode = localStorage.getItem("my_device_code");
+  if (!deviceCode) {
+    deviceCode = generateCode();
+    localStorage.setItem("my_device_code", deviceCode);
+  }
+
+  const gate = document.getElementById("gate");
+
+  if (allowedCodes.includes(deviceCode)) {
+    // ✅ Code matched → Redirect
+    gate.innerHTML = `<div class="main-content">✅ Access granted. Redirecting...</div>`;
+    setTimeout(() => {
+      window.location.href = redirectUrl;
+    }, 1500); // wait 1.5 seconds before redirect
+  } else {
+    // ❌ Not matched → Show the code to user
+    gate.innerHTML = `
+      <h2>This device is not yet authorized.</h2>
+      <p>Send this code to the admin:</p>
+      <div class="code">${deviceCode}</div>
+    `;
+  }
+</script>
+
+</body>
+</html>
