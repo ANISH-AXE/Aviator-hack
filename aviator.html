@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Aviator Prediction 1xBet</title>
+<!-- Google Fonts: Poppins for modern, elegant, readable text -->
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@700;900&display=swap" rel="stylesheet" />
+<style>
+  :root {
+    --primary-color: #e3241d;
+    --secondary-color: #1fddff;
+    --background-gradient: linear-gradient(135deg, #03001e, #7303c0, #ec38bc, #fdeff9);
+    --font-family: 'Poppins', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  }
+  * {
+    box-sizing: border-box;
+  }
+  body {
+    margin: 0;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    background: var(--background-gradient);
+    font-family: var(--font-family);
+    color: white;
+    align-items: center;
+    justify-content: space-between;
+    overflow: hidden;
+  }
+  header {
+    padding: 2rem 1rem 1rem;
+    text-align: center;
+    user-select: none;
+  }
+  .logo {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem;
+    animation: fadeIn 1s ease-in-out;
+  }
+  .aviator-img {
+    width: 96px;
+    height: auto;
+    filter: drop-shadow(0 0 8px #e3241d);
+    object-fit: contain;
+    transition: transform 0.3s;
+  }
+  .aviator-img:hover {
+    transform: scale(1.1);
+  }
+  .logo-text {
+    font-weight: 900;
+    font-size: 3rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    font-family: 'Poppins', sans-serif;
+    color: white;
+    user-select: none;
+    position: relative;
+    background: linear-gradient(90deg, #e3241d, #ff6f61);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+  }
+  main {
+    flex: 1 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 2rem;
+  }
+  #multiplier {
+    font-size: 6rem;
+    font-weight: 900;
+    letter-spacing: 0.05em;
+    text-shadow: 0 0 10px #fff, 0 0 20px var(--primary-color);
+    user-select: none;
+    min-height: 6rem;
+    transition: color 0.3s ease-in-out;
+  }
+  #status-message {
+    font-size: 1.5rem;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    margin-top: -1rem;
+    min-height: 2rem;
+  }
+  button#startBtn {
+    background: var(--primary-color);
+    border: none;
+    outline: none;
+    padding: 1rem 3rem;
+    border-radius: 9999px;
+    color: white;
+    font-weight: 900;
+    font-size: 1.75rem;
+    letter-spacing: 0.1em;
+    cursor: pointer;
+    box-shadow: 0 4px 12px var(--primary-color);
+    user-select: none;
+    transition: background 0.3s ease, box-shadow 0.3s ease, transform 0.3s;
+  }
+  button#startBtn:disabled {
+    background: #777;
+    cursor: not-allowed;
+    box-shadow: none;
+  }
+  button#startBtn:hover:not(:disabled) {
+    background: var(--secondary-color);
+    box-shadow: 0 4px 20px var(--secondary-color);
+    transform: scale(1.05);
+  }
+  footer {
+    padding: 1rem;
+    font-size: 0.875rem;
+    opacity: 0.7;
+    user-select: none;
+  }
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(-20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo" aria-label="Aviator Logo">
+    <img src="ezgif.com-gif-maker.png" alt="Aviator Logo" class="aviator-img" />
+    <div class="logo-text">Aviator</div>
+  </div>
+</header>
+
+<main role="main" aria-live="polite" aria-atomic="true">
+  <div id="multiplier" aria-label="Multiplier">--</div>
+  <div id="status-message" aria-live="assertive"></div>
+  <button id="startBtn" aria-controls="multiplier status-message">Start</button>
+</main>
+
+<footer>
+  &copy; 1xBet Aviator Prediction Simulation
+</footer>
+
+<script>
+  (function() {
+    const startBtn = document.getElementById('startBtn');
+    const multiplierEl = document.getElementById('multiplier');
+    const statusMessage = document.getElementById('status-message');
+    let animationFrameId = null;
+    let running = false;
+
+    // Settings
+    const minCrash = 1.1;
+    const maxCrash = 4.0;
+    const smallCrashMax = 1.5;
+    const littleHighMax = 3.0;
+    const animationSpeed = 0.01;
+
+    function getRandomCrashPoint() {
+      const r = Math.random();
+      if (r < 0.7) return (Math.random() * (smallCrashMax - minCrash) + minCrash);
+      if (r < 0.95) return (Math.random() * (littleHighMax - smallCrashMax) + smallCrashMax);
+      return (Math.random() * (maxCrash - littleHighMax) + littleHighMax);
+    }
+
+    function formatMultiplier(value) {
+      return value.toFixed(2) + 'x';
+    }
+
+    function runGame() {
+      if (running) return;
+
+      running = true;
+      startBtn.disabled = true;
+      statusMessage.textContent = "Flying...";
+      multiplierEl.style.color = 'white';
+
+      let multiplier = 1.00;
+      const crashPoint = getRandomCrashPoint();
+
+      function step() {
+        multiplier += animationSpeed;
+        multiplierEl.textContent = formatMultiplier(multiplier);
+
+        if (multiplier >= crashPoint) {
+          multiplierEl.textContent = formatMultiplier(crashPoint);
+          multiplierEl.style.color = '#e3241d';
+          statusMessage.textContent = `Crashed at ${formatMultiplier(crashPoint)}`;
+          startBtn.disabled = false;
+          running = false;
+          cancelAnimationFrame(animationFrameId);
+          animationFrameId = null;
+          return;
+        }
+
+        animationFrameId = requestAnimationFrame(step);
+      }
+
+      animationFrameId = requestAnimationFrame(step);
+    }
+
+    startBtn.addEventListener('click', runGame);
+  })();
+</script>
+
+</body>
+</html>
