@@ -26,6 +26,7 @@
     align-items: center;
     justify-content: space-between;
     overflow: hidden;
+    position: relative; /* Added for logo positioning */
   }
   header {
     padding: 2rem 1rem 1rem;
@@ -118,6 +119,25 @@
     opacity: 0.7;
     user-select: none;
   }
+  /* Logo fixed top-left similar to index.html */
+  .top-logo {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    overflow: hidden;
+    border: 2px solid white;
+    cursor: pointer;
+    z-index: 1000;
+    background: #00000033;
+  }
+  .top-logo img {
+    width: 100%;
+    height: auto;
+    display: block;
+  }
   @keyframes fadeIn {
     from {
       opacity: 0;
@@ -131,6 +151,11 @@
 </style>
 </head>
 <body>
+
+<!-- Added fixed top-left logo -->
+<div class="top-logo" onclick="window.location.reload();" aria-label="Reload page, Aviator logo">
+  <img src="Screenshot_20240616-174545~2.png" alt="Aviator Logo" />
+</div>
 
 <header>
   <div class="logo" aria-label="Aviator Logo">
@@ -146,7 +171,7 @@
 </main>
 
 <footer>
-  &copy; 1xBet Aviator Prediction Simulation
+  &copy; Axe Aviator Prediction Simulation
 </footer>
 
 <script>
@@ -218,3 +243,4 @@
 
 </body>
 </html>
+
